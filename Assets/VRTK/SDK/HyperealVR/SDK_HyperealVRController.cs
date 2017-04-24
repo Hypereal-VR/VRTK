@@ -4,7 +4,6 @@ namespace VRTK
 #if VRTK_DEFINE_SDK_HYPEREALVR
     using UnityEngine;
     using System.Collections.Generic;
-    using Valve.VR;
     using Hypereal;
 #endif
 

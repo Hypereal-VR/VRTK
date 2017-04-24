@@ -44,7 +44,7 @@ namespace VRTK
             cachedHeadset = GetSDKManagerHeadset();
             if (cachedHeadset == null)
             {
-                var hyperealHead = VRTK_SharedMethods.FindEvenInactiveComponent<HyHead>();
+				var hyperealHead = VRTK_SharedMethods.FindEvenInactiveComponent<HyCamera>();
                 if (hyperealHead)
                 {
                     cachedHeadset = hyperealHead.transform;

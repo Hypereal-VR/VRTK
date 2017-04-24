@@ -2,7 +2,6 @@
 namespace VRTK
 {
 #if VRTK_DEFINE_SDK_HYPEREALVR
-    using Valve.VR;
 #endif
 
     /// <summary>
