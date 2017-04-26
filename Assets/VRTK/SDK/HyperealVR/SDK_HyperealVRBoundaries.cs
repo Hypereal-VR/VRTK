@@ -37,8 +37,7 @@ namespace VRTK
             cachedPlayArea = GetSDKManagerPlayArea();
             if (cachedPlayArea == null)
             {
-                var hvrManager = HyperealVR.Instance;
-                //cachedPlayArea = hvrManager.
+                cachedPlayArea = GameObject.Find("HyperealCamera").transform;
             }
             return cachedPlayArea;
         }
