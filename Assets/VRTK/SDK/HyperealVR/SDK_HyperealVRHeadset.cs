@@ -44,10 +44,10 @@ namespace VRTK
             cachedHeadset = GetSDKManagerHeadset();
             if (cachedHeadset == null)
             {
-				var hyperealHead = VRTK_SharedMethods.FindEvenInactiveComponent<HyCamera>();
+				var hyperealHead = VRTK_SharedMethods.FindEvenInactiveGameObject<SelectVRPluginDemo>();
                 if (hyperealHead)
                 {
-                    cachedHeadset = hyperealHead.transform;
+                    cachedHeadset = hyperealHead.transform.FindChild("Camera");
                 }
             }
             return cachedHeadset;
@@ -62,11 +62,7 @@ namespace VRTK
             cachedHeadsetCamera = GetSDKManagerHeadset();
             if (cachedHeadsetCamera == null)
             {
-                var foundCamera = VRTK_SharedMethods.FindEvenInactiveComponent<HyCamera>();
-                if (foundCamera)
-                {
-                    cachedHeadsetCamera = foundCamera.transform;
-                }
+				cachedHeadsetCamera = GetHeadset();
             }
             return cachedHeadsetCamera;
         }

@@ -306,8 +306,11 @@ namespace VRTK
             }
         }
 
-        protected Transform GetOrigin(bool smoothed = true)
+		protected Transform GetOrigin(bool smoothed = true)
         {
+#if VRTK_DEFINE_SDK_HYPEREALVR
+			smoothed = false;
+#endif
             return smoothed
                 ? pointerOriginTransformFollow.gameObjectToChange.transform
                 : (controllingPointer.customOrigin == null ? transform : controllingPointer.customOrigin);

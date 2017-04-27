@@ -116,7 +116,7 @@ namespace VRTK
         /// <returns>A Transform containing the origin of the controller.</returns>
         public override Transform GetControllerOrigin(GameObject controller)
         {
-            return VRTK_SDK_Bridge.GetPlayArea();
+            return controller.transform;
         }
 
         /// <summary>
@@ -136,9 +136,16 @@ namespace VRTK
         /// <returns>The GameObject containing the left hand controller.</returns>
         public override GameObject GetControllerLeftHand(bool actual = false)
         {
-            var strPrefab = "Prefabs/HyFeelLeft";
-            GameObject temp = Resources.Load<GameObject>(strPrefab);
-            return temp;
+            var hyperealHead = VRTK_SharedMethods.FindEvenInactiveGameObject<SelectVRPluginDemo>();
+            if (hyperealHead)
+            {
+                var controller = hyperealHead.transform.FindChild("HyperealVR(origin)/HyTrackObjRig/ControllerLeft");
+                if (controller)
+                {
+                    return controller.gameObject;
+                }
+            }
+            return null;
         }
 
         /// <summary>
@@ -148,9 +155,16 @@ namespace VRTK
         /// <returns>The GameObject containing the right hand controller.</returns>
         public override GameObject GetControllerRightHand(bool actual = false)
         {
-            var strPrefab = "Prefabs/HyFeelLeft";
-            GameObject temp = Resources.Load<GameObject>(strPrefab);
-            return temp;
+            var hyperealHead = VRTK_SharedMethods.FindEvenInactiveGameObject<SelectVRPluginDemo>();
+            if (hyperealHead)
+            {
+                var controller = hyperealHead.transform.FindChild("HyperealVR(origin)/HyTrackObjRig/ControllerRight");
+                if (controller)
+                {
+                    return controller.gameObject;
+                }
+            }
+            return null;
         }
 
         /// <summary>
@@ -349,7 +363,7 @@ namespace VRTK
         /// <returns>A Vector2 containing the current x,y position of where the touchpad is being touched.</returns>
         public override Vector2 GetTouchpadAxisOnIndex(uint index)
         {
-            return HyInputManager.Instance.GetInputDevice(HyDevice.Device_Controller0).GetTouchpadAxis();
+			return HyInputManager.Instance.GetInputDevice(MappingIndex2HyDevice(index)).GetTouchpadAxis();
         }
 
         /// <summary>
@@ -359,7 +373,7 @@ namespace VRTK
         /// <returns>A Vector2 containing the current position of the trigger.</returns>
         public override Vector2 GetTriggerAxisOnIndex(uint index)
         {
-            var triggerAxis =  HyInputManager.Instance.GetInputDevice(HyDevice.Device_Controller0).GetTriggerAxis(HyInputKey.IndexTrigger);
+			var triggerAxis =  HyInputManager.Instance.GetInputDevice(MappingIndex2HyDevice(index)).GetTriggerAxis(HyInputKey.IndexTrigger);
             return new Vector2(triggerAxis, 0f);
         }
 
@@ -370,7 +384,8 @@ namespace VRTK
         /// <returns>A Vector2 containing the current position of the grip.</returns>
         public override Vector2 GetGripAxisOnIndex(uint index)
         {
-            return Vector2.zero;
+			var triggerAxis =  HyInputManager.Instance.GetInputDevice(MappingIndex2HyDevice(index)).GetTriggerAxis(HyInputKey.SideTrigger);
+			return new Vector2(triggerAxis, 0f);
         }
 
         /// <summary>
@@ -404,7 +419,7 @@ namespace VRTK
         /// <returns>Returns true if the button is continually being pressed.</returns>
         public override bool IsTriggerPressedOnIndex(uint index)
         {
-            return IsButtonPressed((HyDevice)index, ButtonPressTypes.Press, HyInputKey.IndexTrigger);//HyperealVR_Controller.ButtonMask.Trigger);
+			return IsButtonPressed(MappingIndex2HyDevice(index), ButtonPressTypes.Press, HyInputKey.IndexTrigger);
         }
 
         /// <summary>
@@ -414,7 +429,7 @@ namespace VRTK
         /// <returns>Returns true if the button has just been pressed down.</returns>
         public override bool IsTriggerPressedDownOnIndex(uint index)
         {
-            return IsButtonPressed((HyDevice)index, ButtonPressTypes.PressDown, HyInputKey.IndexTrigger);
+			return IsButtonPressed(MappingIndex2HyDevice(index), ButtonPressTypes.PressDown, HyInputKey.IndexTrigger);
         }
 
         /// <summary>
@@ -424,7 +439,7 @@ namespace VRTK
         /// <returns>Returns true if the button has just been released.</returns>
         public override bool IsTriggerPressedUpOnIndex(uint index)
         {
-            return IsButtonPressed((HyDevice)index, ButtonPressTypes.PressUp, HyInputKey.IndexTrigger);
+			return IsButtonPressed(MappingIndex2HyDevice(index), ButtonPressTypes.PressUp, HyInputKey.IndexTrigger);
         }
 
         /// <summary>
@@ -434,7 +449,7 @@ namespace VRTK
         /// <returns>Returns true if the button is continually being touched.</returns>
         public override bool IsTriggerTouchedOnIndex(uint index)
         {
-            return IsButtonPressed((HyDevice)index, ButtonPressTypes.Touch, HyInputKey.IndexTrigger);
+			return IsButtonPressed(MappingIndex2HyDevice(index), ButtonPressTypes.Touch, HyInputKey.IndexTrigger);
         }
 
         /// <summary>
@@ -444,7 +459,7 @@ namespace VRTK
         /// <returns>Returns true if the button has just been touched down.</returns>
         public override bool IsTriggerTouchedDownOnIndex(uint index)
         {
-            return IsButtonPressed((HyDevice)index, ButtonPressTypes.TouchDown, HyInputKey.IndexTrigger);
+			return IsButtonPressed(MappingIndex2HyDevice(index), ButtonPressTypes.TouchDown, HyInputKey.IndexTrigger);
         }
 
         /// <summary>
@@ -454,7 +469,7 @@ namespace VRTK
         /// <returns>Returns true if the button has just been released.</returns>
         public override bool IsTriggerTouchedUpOnIndex(uint index)
         {
-            return IsButtonPressed((HyDevice)index, ButtonPressTypes.TouchUp, HyInputKey.IndexTrigger);
+			return IsButtonPressed(MappingIndex2HyDevice(index), ButtonPressTypes.TouchUp, HyInputKey.IndexTrigger);
         }
 
         /// <summary>
@@ -492,7 +507,7 @@ namespace VRTK
         /// <returns>Returns true if the button is continually being pressed.</returns>
         public override bool IsGripPressedOnIndex(uint index)
         {
-            return false;
+			return IsButtonPressed(MappingIndex2HyDevice(index), ButtonPressTypes.Press, HyInputKey.SideTrigger);
         }
 
         /// <summary>
@@ -502,7 +517,7 @@ namespace VRTK
         /// <returns>Returns true if the button has just been pressed down.</returns>
         public override bool IsGripPressedDownOnIndex(uint index)
         {
-            return false;
+			return IsButtonPressed(MappingIndex2HyDevice(index), ButtonPressTypes.PressDown, HyInputKey.SideTrigger);
         }
 
         /// <summary>
@@ -512,7 +527,7 @@ namespace VRTK
         /// <returns>Returns true if the button has just been released.</returns>
         public override bool IsGripPressedUpOnIndex(uint index)
         {
-            return false;
+			return IsButtonPressed(MappingIndex2HyDevice(index), ButtonPressTypes.PressUp, HyInputKey.SideTrigger);
         }
 
         /// <summary>
@@ -522,7 +537,7 @@ namespace VRTK
         /// <returns>Returns true if the button is continually being touched.</returns>
         public override bool IsGripTouchedOnIndex(uint index)
         {
-            return false;
+			return IsButtonPressed(MappingIndex2HyDevice(index), ButtonPressTypes.Touch, HyInputKey.SideTrigger);
         }
 
         /// <summary>
@@ -532,7 +547,7 @@ namespace VRTK
         /// <returns>Returns true if the button has just been touched down.</returns>
         public override bool IsGripTouchedDownOnIndex(uint index)
         {
-            return false;
+			return IsButtonPressed(MappingIndex2HyDevice(index), ButtonPressTypes.TouchDown, HyInputKey.SideTrigger);
         }
 
         /// <summary>
@@ -542,7 +557,7 @@ namespace VRTK
         /// <returns>Returns true if the button has just been released.</returns>
         public override bool IsGripTouchedUpOnIndex(uint index)
         {
-            return false;
+			return IsButtonPressed(MappingIndex2HyDevice(index), ButtonPressTypes.TouchUp, HyInputKey.SideTrigger);
         }
 
         /// <summary>
@@ -552,7 +567,11 @@ namespace VRTK
         /// <returns>Returns true if the button has passed it's press threshold.</returns>
         public override bool IsHairGripDownOnIndex(uint index)
         {
-            return false;
+			if (index >= uint.MaxValue)
+			{
+				return false;
+			}
+			return (currentHairGripState[index] && !previousHairGripState[index]);
         }
 
         /// <summary>
@@ -562,7 +581,11 @@ namespace VRTK
         /// <returns>Returns true if the button has just been released from it's press threshold.</returns>
         public override bool IsHairGripUpOnIndex(uint index)
         {
-            return false;
+			if (index >= uint.MaxValue)
+			{
+				return false;
+			}
+			return (!currentHairGripState[index] && previousHairGripState[index]);
         }
 
         /// <summary>
@@ -572,7 +595,7 @@ namespace VRTK
         /// <returns>Returns true if the button is continually being pressed.</returns>
         public override bool IsTouchpadPressedOnIndex(uint index)
         {
-            return IsButtonPressed((HyDevice)index, ButtonPressTypes.Press, HyInputKey.Touchpad);
+			return IsButtonPressed(MappingIndex2HyDevice(index), ButtonPressTypes.Press, HyInputKey.Touchpad);
         }
 
         /// <summary>
@@ -582,7 +605,7 @@ namespace VRTK
         /// <returns>Returns true if the button has just been pressed down.</returns>
         public override bool IsTouchpadPressedDownOnIndex(uint index)
         {
-            return IsButtonPressed((HyDevice)index, ButtonPressTypes.PressDown, HyInputKey.Touchpad);
+			return IsButtonPressed(MappingIndex2HyDevice(index), ButtonPressTypes.PressDown, HyInputKey.Touchpad);
         }
 
         /// <summary>
@@ -592,7 +615,7 @@ namespace VRTK
         /// <returns>Returns true if the button has just been released.</returns>
         public override bool IsTouchpadPressedUpOnIndex(uint index)
         {
-            return IsButtonPressed((HyDevice)index, ButtonPressTypes.PressUp, HyInputKey.Touchpad);
+			return IsButtonPressed(MappingIndex2HyDevice(index), ButtonPressTypes.PressUp, HyInputKey.Touchpad);
         }
 
         /// <summary>
@@ -602,7 +625,7 @@ namespace VRTK
         /// <returns>Returns true if the button is continually being touched.</returns>
         public override bool IsTouchpadTouchedOnIndex(uint index)
         {
-            return IsButtonPressed((HyDevice)index, ButtonPressTypes.Touch, HyInputKey.Touchpad);
+			return IsButtonPressed(MappingIndex2HyDevice(index), ButtonPressTypes.Touch, HyInputKey.Touchpad);
         }
 
         /// <summary>
@@ -612,7 +635,7 @@ namespace VRTK
         /// <returns>Returns true if the button has just been touched down.</returns>
         public override bool IsTouchpadTouchedDownOnIndex(uint index)
         {
-            return IsButtonPressed((HyDevice)index, ButtonPressTypes.TouchDown, HyInputKey.Touchpad);
+			return IsButtonPressed(MappingIndex2HyDevice(index), ButtonPressTypes.TouchDown, HyInputKey.Touchpad);
         }
 
         /// <summary>
@@ -622,7 +645,7 @@ namespace VRTK
         /// <returns>Returns true if the button has just been released.</returns>
         public override bool IsTouchpadTouchedUpOnIndex(uint index)
         {
-            return IsButtonPressed((HyDevice)index, ButtonPressTypes.TouchUp, HyInputKey.Touchpad);
+			return IsButtonPressed(MappingIndex2HyDevice(index), ButtonPressTypes.TouchUp, HyInputKey.Touchpad);
         }
 
         /// <summary>
@@ -762,7 +785,7 @@ namespace VRTK
         /// <returns>Returns true if the button has just been pressed down.</returns>
         public override bool IsStartMenuPressedDownOnIndex(uint index)
         {
-            return IsButtonPressed((HyDevice)index, ButtonPressTypes.PressDown, HyInputKey.Menu);
+			return IsButtonPressed(MappingIndex2HyDevice(index), ButtonPressTypes.PressDown, HyInputKey.Menu);
         }
 
         /// <summary>
@@ -772,7 +795,7 @@ namespace VRTK
         /// <returns>Returns true if the button has just been released.</returns>
         public override bool IsStartMenuPressedUpOnIndex(uint index)
         {
-            return IsButtonPressed((HyDevice)index, ButtonPressTypes.PressUp, HyInputKey.Menu);
+			return IsButtonPressed(MappingIndex2HyDevice(index), ButtonPressTypes.PressUp, HyInputKey.Menu);
         }
 
         /// <summary>
@@ -782,7 +805,7 @@ namespace VRTK
         /// <returns>Returns true if the button is continually being touched.</returns>
         public override bool IsStartMenuTouchedOnIndex(uint index)
         {
-            return IsButtonPressed((HyDevice)index, ButtonPressTypes.Touch, HyInputKey.Menu);
+			return IsButtonPressed(MappingIndex2HyDevice(index), ButtonPressTypes.Touch, HyInputKey.Menu);
         }
 
         /// <summary>
@@ -792,7 +815,7 @@ namespace VRTK
         /// <returns>Returns true if the button has just been touched down.</returns>
         public override bool IsStartMenuTouchedDownOnIndex(uint index)
         {
-            return IsButtonPressed((HyDevice)index, ButtonPressTypes.TouchDown, HyInputKey.Menu);
+			return IsButtonPressed(MappingIndex2HyDevice(index), ButtonPressTypes.TouchDown, HyInputKey.Menu);
         }
 
         /// <summary>
@@ -802,7 +825,7 @@ namespace VRTK
         /// <returns>Returns true if the button has just been released.</returns>
         public override bool IsStartMenuTouchedUpOnIndex(uint index)
         {
-            return IsButtonPressed((HyDevice)index, ButtonPressTypes.TouchUp, HyInputKey.Menu);
+			return IsButtonPressed(MappingIndex2HyDevice(index), ButtonPressTypes.TouchUp, HyInputKey.Menu);
         }
 
         private void OnTrackedDeviceRoleChanged<T>(T ignoredArgument)
@@ -824,12 +847,12 @@ namespace VRTK
                 if (cachedLeftTrackedObject == null && sdkManager.actualLeftController)
                 {
                     cachedLeftController = sdkManager.actualLeftController.GetComponent<VRTK_TrackedController>();
-                    cachedLeftController.index = 0;
+					cachedLeftController.index = 0;
                 }
                 if (cachedRightTrackedObject == null && sdkManager.actualRightController)
                 {
-                    cachedLeftController = sdkManager.actualLeftController.GetComponent<VRTK_TrackedController>();
-                    cachedLeftController.index = 1;
+                    cachedRightController = sdkManager.actualRightController.GetComponent<VRTK_TrackedController>();
+					cachedRightController.index = 1;
                 }
             }
         }
@@ -850,11 +873,22 @@ namespace VRTK
             return trackedObject;
         }
 
+		private HyDevice MappingIndex2HyDevice(uint index) {
+			switch (index) {
+			case 0:
+				return HyDevice.Device_Controller0;
+			case 1:
+				return HyDevice.Device_Controller1;
+			default:
+				break;
+			}
+			return HyDevice.Device_Unknown;
+		}
+
         private bool IsButtonPressed(HyDevice index, ButtonPressTypes type, HyInputKey button)
         {
             //todo use index to input type
-            var device = HyInputManager.Instance.GetInputDevice((HyDevice)index);
-
+            var device = HyInputManager.Instance.GetInputDevice(index);
             switch (type)
             {
                 case ButtonPressTypes.Press:
