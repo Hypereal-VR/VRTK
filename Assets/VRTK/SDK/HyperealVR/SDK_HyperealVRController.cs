@@ -136,15 +136,20 @@ namespace VRTK
         /// <returns>The GameObject containing the left hand controller.</returns>
         public override GameObject GetControllerLeftHand(bool actual = false)
         {
-            var hyperealHead = VRTK_SharedMethods.FindEvenInactiveGameObject<SelectVRPluginDemo>();
-            if (hyperealHead)
-            {
-                var controller = hyperealHead.transform.FindChild("HyperealVR(origin)/HyTrackObjRig/ControllerLeft");
-                if (controller)
-                {
-                    return controller.gameObject;
-                }
-            }
+			if (actual) {
+				var hyperealHead = VRTK_SharedMethods.FindEvenInactiveGameObject<SelectVRPluginDemo> ();
+				if (hyperealHead) {
+					var controller = hyperealHead.transform.FindChild ("HyperealVR(origin)/HyTrackObjRig/ControllerLeft");
+					if (controller) {
+						return controller.gameObject;
+					}
+				}
+			} else {
+				var sdkManager = VRTK_SDKManager.instance;
+				if (sdkManager != null) {
+					return sdkManager.scriptAliasLeftController;
+				}
+			}
             return null;
         }
 
@@ -155,15 +160,20 @@ namespace VRTK
         /// <returns>The GameObject containing the right hand controller.</returns>
         public override GameObject GetControllerRightHand(bool actual = false)
         {
-            var hyperealHead = VRTK_SharedMethods.FindEvenInactiveGameObject<SelectVRPluginDemo>();
-            if (hyperealHead)
-            {
-                var controller = hyperealHead.transform.FindChild("HyperealVR(origin)/HyTrackObjRig/ControllerRight");
-                if (controller)
-                {
-                    return controller.gameObject;
-                }
-            }
+			if (actual) {
+				var hyperealHead = VRTK_SharedMethods.FindEvenInactiveGameObject<SelectVRPluginDemo> ();
+				if (hyperealHead) {
+					var controller = hyperealHead.transform.FindChild ("HyperealVR(origin)/HyTrackObjRig/ControllerRight");
+					if (controller) {
+						return controller.gameObject;
+					}
+				}
+			} else {
+				var sdkManager = VRTK_SDKManager.instance;
+				if (sdkManager != null) {
+					return sdkManager.scriptAliasRightController;
+				}
+			}
             return null;
         }
 
