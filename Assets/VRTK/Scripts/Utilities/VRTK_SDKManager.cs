@@ -30,7 +30,7 @@ namespace VRTK
             { SupportedSDKs.OculusVR, new VRTK_SDKDetails("VRTK_SDK_OCULUSVR", "OculusVR", "OVRInput") },
             { SupportedSDKs.Daydream, new VRTK_SDKDetails("VRTK_SDK_DAYDREAM", "Daydream", "VRTK_SDKManager") }, // JSL: maybe use GVR here?
             { SupportedSDKs.Simulator, new VRTK_SDKDetails("VRTK_SDK_SIM", "Simulator", "VRTK_SDKManager") },
-            { SupportedSDKs.Simulator, new VRTK_SDKDetails("VRTK_DEFINE_SDK_HYPEREALVR", "HyperealVR", "VRTK_SDKManager") }
+            { SupportedSDKs.HyperealVR, new VRTK_SDKDetails("VRTK_DEFINE_SDK_HYPEREALVR", "HyperealVR", "VRTK_SDKManager") }
         };
 
         /// <summary>
