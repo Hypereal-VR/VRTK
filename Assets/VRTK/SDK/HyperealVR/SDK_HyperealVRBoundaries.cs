@@ -25,7 +25,7 @@ namespace VRTK
         /// </summary>
         public override void InitBoundaries()
         {
-
+            var hyInst = HyperealVR.Instance;
         }
 
         /// <summary>
@@ -60,22 +60,37 @@ namespace VRTK
                 var points = new Vector2[count];
                 HyperealApi.GetPlayAreaVertex(points, count);
 
-                var outerBoundary = new Vector3();
-                    var thickness = 0.1f;
+                float inner = 0.9f;
+                float outer = 1f;
 
-                    var vertices = new Vector3[8];
+                Vector3[] vertices = new Vector3[8];
+                vertices[0] = new Vector3(inner, 0f, -inner);
+                vertices[1] = new Vector3(-inner, 0f, -inner);
+                vertices[2] = new Vector3(-inner, 0f, inner);
+                vertices[3] = new Vector3(inner, 0f, inner);
 
-                    vertices[0] = new Vector3(outerBoundary.x - thickness, 0f, outerBoundary.z - thickness);
-                    vertices[1] = new Vector3(0f + thickness, 0f, outerBoundary.z - thickness);
-                    vertices[2] = new Vector3(0f + thickness, 0f, 0f + thickness);
-                    vertices[3] = new Vector3(outerBoundary.x - thickness, 0f, 0f + thickness);
+                vertices[4] = new Vector3(outer, 0f, -outer);
+                vertices[5] = new Vector3(-outer, 0f, -outer);
+                vertices[6] = new Vector3(-outer, 0f, outer);
+                vertices[7] = new Vector3(outer, 0f, outer);
 
-                    vertices[4] = new Vector3(outerBoundary.x, 0f, outerBoundary.z);
-                    vertices[5] = new Vector3(0f, 0f, outerBoundary.z);
-                    vertices[6] = new Vector3(0f, 0f, 0f);
-                    vertices[7] = new Vector3(outerBoundary.x, 0f, 0f);
+                return vertices;
+                //var outerBoundary = new Vector3();
+                //    var thickness = 0.1f;
 
-                    return vertices;
+                //    var vertices = new Vector3[8];
+
+                //    vertices[0] = new Vector3(outerBoundary.x - thickness, 0f, outerBoundary.z - thickness);
+                //    vertices[1] = new Vector3(0f + thickness, 0f, outerBoundary.z - thickness);
+                //    vertices[2] = new Vector3(0f + thickness, 0f, 0f + thickness);
+                //    vertices[3] = new Vector3(outerBoundary.x - thickness, 0f, 0f + thickness);
+
+                //    vertices[4] = new Vector3(outerBoundary.x, 0f, outerBoundary.z);
+                //    vertices[5] = new Vector3(0f, 0f, outerBoundary.z);
+                //    vertices[6] = new Vector3(0f, 0f, 0f);
+                //    vertices[7] = new Vector3(outerBoundary.x, 0f, 0f);
+
+                //    return vertices;
             }
             return null;
         }
