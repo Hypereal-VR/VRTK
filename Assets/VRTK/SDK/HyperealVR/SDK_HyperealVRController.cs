@@ -787,7 +787,7 @@ namespace VRTK
         /// <returns>Returns true if the button is continually being pressed.</returns>
         public override bool IsStartMenuPressedOnIndex(uint index)
         {
-            return IsButtonPressed((HyDevice)index, ButtonPressTypes.Press, HyInputKey.Menu);
+            return IsButtonPressed(MappingIndex2HyDevice(index), ButtonPressTypes.Press, HyInputKey.Menu);
         }
 
         /// <summary>
