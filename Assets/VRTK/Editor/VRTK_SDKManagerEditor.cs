@@ -165,6 +165,7 @@
             ProcessSDK(sdkManager, VRTK_SDKManager.SupportedSDKs.SteamVR);
             ProcessSDK(sdkManager, VRTK_SDKManager.SupportedSDKs.OculusVR);
             ProcessSDK(sdkManager, VRTK_SDKManager.SupportedSDKs.Simulator);
+            ProcessSDK(sdkManager, VRTK_SDKManager.SupportedSDKs.HyperealVR);
         }
 
         private void ProcessSDK(VRTK_SDKManager sdkManager, VRTK_SDKManager.SupportedSDKs supportedSDK)
