@@ -48,7 +48,7 @@ namespace VRTK
                 var hyperealHead = FindObjectOfType<SelectVRPluginDemo>();
                 if (hyperealHead)
                 {
-					cachedHeadset = hyperealHead.transform.FindChild("HyperealVR(origin)/Camera (1)(head)/Camera (1)(eye)");
+					cachedHeadset = hyperealHead.transform.FindChild("HyperealVR(origin)/Camera(head)/Camera(eye)");
                 }
             }
             return cachedHeadset;
